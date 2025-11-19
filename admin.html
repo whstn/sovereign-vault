@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sovereign Alpha – Key Manager</title>
+  <style>
+    body{background:#0a0e17;color:#c9a05f;font-family:monospace;padding:40px}
+    input,button{padding:12px;margin:8px;font-size:18px;background:#111;border:1px solid #c9a05f;color:#c9a05f}
+    button{background:#c9a05f;color:#000;font-weight:bold;cursor:pointer}
+    .key{font-family:monospace;background:#111;padding:10px;border:1px solid #c9a05f;margin:10px;display:inline-block}
+  </style>
+</head>
+<body>
+<h1>Sovereign Alpha – Key Generator</h1>
+<input id="name" placeholder="Client name (e.g. Wetherald, London)" size="50"><br>
+<input id="alloc" placeholder="Allocation €M (optional)" value="10"><br>
+<button onclick="gen()">Generate New Key</button>
+<div id="keys"></div>
+
+<script>
+function gen() {
+  const name = document.getElementById('name').value || 'Client';
+  const alloc = document.getElementById('alloc').value;
+  const key = 'sk_' + name.toLowerCase().replace(/ /g,'_') + '_' + Date.now().toString(36);
+  const div = document.createElement('div');
+  div.className = 'key';
+  div.innerHTML = `<strong>${name}</strong> – €${alloc}M<br><code>${key}</code> <button onclick="this.parentElement.remove()">Revoke</button>`;
+  document.getElementById('keys').prepend(div);
+  alert('New key created – add to api.php:\n"' + key + '" => true,');
+}
+</script>
+</body>
+</html>
